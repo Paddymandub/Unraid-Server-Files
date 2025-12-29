@@ -1,0 +1,44 @@
+---
+-HE-Resources:
+
+title: PaddyNas
+headerStyle: boxedWidgets
+
+#showStats: true
+socket: /var/run/docker.sock
+background: 
+  image: https://images.unsplash.com/photo-1637825891028-564f672aa42c
+  blur: xl
+  brightness: 90
+  opacity: 60
+
+cardBlur: sm
+
+providers:
+  op#enweathermap:
+  longitude: 52.44
+  latitude: -6.33
+
+logo: /icons/main_logo.png
+icon: /icons/main_logo.png
+image: /images/main_logo.png
+
+layout:
+  Paddynas:
+    icon: mdi-list-status-#FFFFFF
+  Networking:
+    icon: mdi-network-#FFFFFF
+  Infrastructure and Data:
+    icon: mdi-server-#FFFFFF
+  Arr Stack:
+    icon: mdi-cog-play-#FFFFFF
+  Arr Stack Cont:
+    icon: mdi-cog-play-#FFFFFF
+  Stats:
+      icon: si-unraid-#FFFFFF
+  Automation:
+    icon: mdi-auto-fix-#FFFFFF
+  IoT and Smarthome:
+    icon: mdi-home-#FFFFFF
+  Security and Identity:
+    icon: mdi-shield-lock-#FFFFFF

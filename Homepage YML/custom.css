@@ -1,0 +1,236 @@
+/* === Layout Gaps === */
+.gap-x-2,
+#bookmarks.flex.flex-wrap {
+    column-gap: calc(var(--spacing) * 2);
+}
+
+.services-list.flex.flex-col {
+    row-gap: calc(var(--spacing) * 2);
+}
+
+/* === Card Shadow (Only for Cards) === */
+.service-card {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),     /* base drop shadow */
+    0 0 2px rgba(255, 255, 255, 0.2), /* soft glow or outer ring */
+    inset 0 0 2px rgba(255, 255, 255, 0.1) !important; /* subtle inner edge */
+
+}
+
+/* === Light Text Shadow for Readability === */
+* {
+  text-shadow:
+    1px 1px 1px rgba(0, 0, 0, 0.6),
+   -1px -1px 1px rgba(0, 0, 0, 0.6),
+    0px 0px 2px rgba(0, 0, 0, 8);
+}
+
+
+/* === Responsive Grid Layout (Stable Across Resizes) === */
+@media (min-width: 500px) {
+  .services-list.flex.flex-col {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    align-items: stretch !important; /* ✅ equal height rows */
+  }
+
+  .services-list.flex.flex-col .service {
+    grid-column: span 2;
+    display: flex !important;           /* ✅ flex allows internal scaling */
+    flex-direction: column;
+  }
+
+  .services-list.flex.flex-col #col-small.service {
+    grid-column: span 1 !important;
+  }
+
+  .services-list.flex.flex-col .service > div {
+    flex: 1 1 auto;
+  }
+}
+
+
+/* === Optional: Bookmark Styling === */
+.service-card, .bookmark-icon, .bookmark-text {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+#GLANCES COLOR
+
+/* RX gradient (download) */
+#colorA stop[offset="5%"] {
+    stop-color: #af8df7 !important;
+    stop-opacity: 0.5 !important;  /* 80% visible */
+}
+#colorA stop[offset="95%"] {
+    stop-color: #af8df7 !important;
+    stop-opacity: 0.5 !important;  /* 40% visible */
+}
+
+/* TX gradient (upload) */
+#colorB stop[offset="5%"] {
+    stop-color: #6393db !important;
+    stop-opacity: 0.5 !important;  /* 70% visible */
+}
+#colorB stop[offset="95%"] {
+    stop-color: #6393db !important;
+    stop-opacity: 0.5 !important;  /* 30% visible */
+}
+
+
+
+/* First rule for col-small cards: base styling */
+#col-small.service .service-block > div:nth-child(2) {
+  font-size: 10px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+}
+
+/* Second rule for col-small cards: line/width limits */
+#col-small.service .service-block > div:nth-child(2) {
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  max-width: 100% !important;
+}
+
+
+#color
+
+/* === CARD DESCRIPTION === */
+.service-description {
+  color: #aaa !important;
+  font-style: italic !important;
+  text-shadow: none !important;
+}
+
+/* === CARD TITLE === */
+.service-name {
+  color: white !important;
+  text-shadow: none !important;
+  font-weight: normal !important;
+  transition: font-weight 0.4s ease;
+
+}
+
+.service-name:has(.service-description) {
+  color: white !important;
+
+}
+
+.service-card:hover .service-name {
+  color: orange !important;
+  font-weight: bold !important;
+  text-shadow: none !important;
+  transition: color 0.4s ease;
+  transition: font-weight 0.4s ease;
+
+}
+
+.service-card:hover .service-title .service-name {
+  color: orange !important;
+
+}
+
+.service-card:hover .service-title-text .service-name {
+  color: orange !important;
+}
+
+/* === BOOKMARK ICON (Initials like "AM") === */
+.bookmark-icon {
+  color: white !important;
+  text-shadow: none !important;
+  font-weight: bold !important;
+  transition: color 0.6s ease;
+}
+
+
+
+/* ✅ Hover effect ONLY on initials */
+.bookmark:hover .bookmark-icon {
+  color: orange !important;
+}
+
+/* ❌ Bookmark name stays white always */
+.bookmark-name {
+  color: white !important;
+  text-shadow: none !important;
+  font-weight: normal !important;
+  transition: font-weight 0.4s ease;
+}
+
+/* Prevent any hover change */
+.bookmark-name:hover {
+  color: white !important;
+  font-weight: bold !important;
+}
+
+/* === BOOKMARK DESCRIPTION === */
+.bookmark-description {
+  color: #aaa !important;
+  font-style: italic !important;
+  text-shadow: none !important;
+}
+
+#INFO TEXT
+
+
+
+.information-widget-greeting {
+  text-align: center;
+}
+
+.information-widget-greeting span {
+  color: transparent;
+  font-size: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.information-widget-greeting span::before {
+  content: "Everything is running smoothly…";
+  display: block;
+  white-space: pre-wrap;
+  font-size: 1.25rem;
+  font-style: standard;
+  font-weight: 500;
+  color: #f97316;
+  text-align: center;
+}
+.information-widget-greeting span::after {
+  content: "until it doesn't.";
+  display: block;
+  white-space: pre-wrap;
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 1000;
+  letter-spacing: 0.1em;
+  color: #f97316;
+  text-align: center;
+}
+
+.information-widget-logo img {
+  height: 64px !important;   /* Increase size */
+  width: auto !important;    /* Maintain aspect ratio */
+  margin: 0 auto;            /* Center horizontally */
+   display: block;
+}
+
+img[src="https://raw.githubusercontent.com/Paddymandub/Homepage-Files/refs/heads/main/G3x1ILcM.jpeg"] {
+  width: auto !important;
+  height: 180px !important;
+}
+ fade in
+
+
+  
+
+.button-hover {
+  transition: transform 0.2s ease;
+}
+
+.button-hover:hover {
+  transform: scale(1.03);
+}

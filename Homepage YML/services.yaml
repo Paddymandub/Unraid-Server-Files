@@ -1,0 +1,355 @@
+---
+
+- Paddynas:
+    - NAS:
+        icon: {{HOMEPAGE_VAR_PADDYNAS_ICON}}
+        href: {{HOMEPAGE_VAR_PADDYNAS_IP}}
+        monitor: {{HOMEPAGE_VAR_PADDYNAS_IP}}
+        #monitor: http://{{HOMEPAGE_VAR_UNRAID_HOSTNAME}}/
+        #description: NAS
+        widget:
+            type: glances
+            url: {{HOMEPAGE_VAR_GLANCES_IP}}
+            version: 4 # required only if running glances v4 or higher, defaults to 3
+            metric: info
+            diskUnits: bytes # optional, bytes (default) or bbytes. Only applies to disk
+            refreshInterval: 5000 # optional - in milliseconds, defaults to 1000 or more, depending on the metric
+            pointsLimit: 15 # optional, defaults to 15
+    - Unraid Drives:
+        icon: unraid.png
+        href: {{HOMEPAGE_VAR_PADDYNAS_IP}}
+        widget:
+          type: customapi
+          url: {{HOMEPAGE_VAR_UNRAIDDRIVES_IP}}
+          display: list
+          method: GET # this doesn't matter
+          mappings:
+            - field:
+                cache_total: free
+              label: Cache free
+              format: number
+              suffix: GiB
+            - field:
+                cache_total: used_percent
+              label: Cache used
+              format: percent        
+
+            - field:
+               array_total: free # or used, total, used_percent, free_percent, temp, mount, disk_id, is_spinning
+              label: Array free
+              format: number # or percentage
+              suffix: GiB # or nothing in case of percentages, or whatver you prefer
+            - field:
+               array_total: used_percent # or used, total, used_percent, free_percent, temp, mount, disk_id, is_spinning
+              label: Array used
+              format: percent # or percentage
+              #suffix: GiB # or nothing in case of percentages, or whatver you prefer
+
+            - field:
+                array: # or cache
+                 0: free
+                # '0' is the index of the disk, 0 = the first 
+                # 'free' is the field you wish to read
+              label: Disk1 free
+              format: number
+              suffix: GiB
+            - field:
+                array: # or cache
+                 0: used_percent
+                # '0' is the index of the disk, 0 = the first 
+                # 'free' is the field you wish to read
+              label: Disk1 used
+              format: percent
+              #suffix: GiB
+
+            - field:
+                array: # or cache
+                 1: free
+                # '0' is the index of the disk, 0 = the first 
+                # 'free' is the field you wish to read
+              label: Disk2 free
+              format: number
+              suffix: GiB
+            - field:
+                array: # or cache
+                 1: used_percent
+                # '0' is the index of the disk, 0 = the first 
+                # 'free' is the field you wish to read
+              label: Disk2 used
+              format: percent
+              #suffix: GiB
+            
+            - field:
+                parity: 
+                 0: temp
+              label: Parity free
+              format: number
+              suffix: GiB
+    - process:
+        href: {{HOMEPAGE_VAR_GLANCES_IP}}
+        widget:
+            type: glances
+            version: 4
+            #username: # optional if auth enabled in Glances
+            #password: # optional if auth enabled in Glances
+            url: {{HOMEPAGE_VAR_GLANCES_IP}}
+            metric: process
+
+- Infrastructure and Data:
+    - Unifi:
+        icon: unifi.png
+        href: {{HOMEPAGE_VAR_UNIFI_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_UNIFI_IP}}
+       # ping: [[HOMEPAGE_VAR_PADDYNAS_IP]]
+        description: Unifi Stats
+        #ping: {{HOMEPAGE_VAR_HA_HOSTNAME}}
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        showStats: true
+        #container: unifi # The name of the container you'd like to connect
+        widget:
+            type: unifi
+            url: {{HOMEPAGE_VAR_UNIFIWIDGET_IP}}
+            username: {{HOMEPAGE_VAR_UNIFI_USER}}
+            password: {{HOMEPAGE_VAR_UNIFI_PASS}}
+            verify-ssl: false 
+
+    - NGINX Proxy Manager:
+        icon: {{HOMEPAGE_VAR_NGINX_ICON}}
+        href: {{HOMEPAGE_VAR_NGINX_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_NGINX_IP}}
+        description: Proxy Manager
+        server: {{HOMEPAGE_VAR_DOCKER}} #setup in docker.yaml
+        container: NginxProxyManager
+        widget:
+            type: npm
+            url: {{HOMEPAGE_VAR_NGINX_IP}}
+            username: {{HOMEPAGE_VAR_NGINX_USER}}
+            password: {{HOMEPAGE_VAR_NGINX_PASS}}
+
+    - Speedtest:
+        icon: {{HOMEPAGE_VAR_SPEEDTEST_ICON}}
+        href: {{HOMEPAGE_VAR_SPEEDTEST_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_SPEEDTEST_IP}}
+        description: WAN Speedtest
+        #description: DNS
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        container: speedtest-tracker # The name of the container you'd like to connect
+        widget:
+            type: speedtest
+            url: {{HOMEPAGE_VAR_SPEEDTEST_IP}}
+
+    - Nextcloud:
+        icon: {{HOMEPAGE_VAR_NEXTCLOUD_ICON}}
+        siteMonitor: {{HOMEPAGE_VAR_NEXTCLOUD_IP}}
+        description: Paddy Nextcloud
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        container: nextcloud-aio-apache
+        widget:
+            type: nextcloud
+            url:  {{HOMEPAGE_VAR_NEXTCLOUD_IP}}
+            username: {{HOMEPAGE_VAR_NEXTCLOUD_USER}}
+            password: {{HOMEPAGE_VAR_NEXTCLOUD_PASS}}
+
+
+    - Proxmox:
+        href: 
+        icon: proxmox.png
+        description: Proxmox Server
+        siteMonitor: 
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        widget:
+            type: proxmox
+            url: 
+            username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
+            password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
+   
+        
+- Arr Stack:
+    - Jellyfin:
+        icon: {{HOMEPAGE_VAR_JELLYFIN_ICON}}
+        href: {{HOMEPAGE_VAR_JELLYFIN_IP}}
+        description: Media server
+        siteMonitor: {{HOMEPAGE_VAR_JELLYFIN_IP}}
+        server: {{HOMEPAGE_VAR_DOCKER}}  # The docker server that was configured
+        container: binhex-jellyfin # The name of the container you'd like to connect
+        widget:
+            type: jellyfin
+            url: {{HOMEPAGE_VAR_JELLYFIN_IP}}
+            key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
+            enableBlocks: true
+           # fields: ["movies", "series"]
+            enableNowPlaying: true 
+
+    - Plex:
+        icon: {{HOMEPAGE_VAR_PLEX_ICON}}
+        href: {{HOMEPAGE_VAR_PLEX_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_PLEX_IP}}
+        description: Media Server
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        container: plex # The name of the container you'd like to connect
+        widget:
+            type: plex
+            url: {{HOMEPAGE_VAR_PLEX_IP}}
+            key: {{HOMEPAGE_VAR_PLEX_KEY}}
+            enableNowPlaying: true 
+    - Sonarr:
+        icon: {{HOMEPAGE_VAR_SONARR_ICON}}
+        href: {{HOMEPAGE_VAR_SONARR_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_SONARR_IP}}
+        description: Series management
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        container: sonarr # The name of the container you'd like to connect
+        widget:
+            type: sonarr
+            url: {{HOMEPAGE_VAR_SONARR_IP}}
+            key: {{HOMEPAGE_VAR_SONARR_KEY}}
+    - Radarr:
+        icon: {{HOMEPAGE_VAR_RADARR_ICON}}
+        href: {{HOMEPAGE_VAR_RADARR_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_RADARR_IP}}
+        description: Movie management
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        container: radarr # The name of the container you'd like to connect
+        widget:
+            type: radarr
+            url: {{HOMEPAGE_VAR_RADARR_IP}}
+            key: {{HOMEPAGE_VAR_RADARR_KEY}}
+- Arr Stack Cont:
+    - Jellyeerr:
+        icon: {{HOMEPAGE_VAR_JELLYSEERR_ICON}} 
+        href: {{HOMEPAGE_VAR_JELLYSEERR_IP}} 
+        siteMonitor: {{HOMEPAGE_VAR_JELLYSEERR_IP}} 
+        server: {{HOMEPAGE_VAR_DOCKER}} # The docker server that was configured
+        container: jellyseerr # The name of the container you'd like to connect
+        description: Media Service
+        widget:
+            type: jellyseerr
+            url: {{HOMEPAGE_VAR_JELLYSEERR_IP}} 
+            key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
+    - QBittorrent:
+            icon: {{HOMEPAGE_VAR_QBITTORRENT_ICON}}
+            href: {{HOMEPAGE_VAR_QBITTORRENT_IP}}
+            siteMonitor:  {{HOMEPAGE_VAR_QBITTORRENT_IP}}
+            description: Torrentz
+            server: {{HOMEPAGE_VAR_DOCKER}}  # The docker server that was configured
+            container: qbittorrent # The name of the container you'd like to connect
+            widget:
+                type: qbittorrent
+                url: {{HOMEPAGE_VAR_QBITTORRENT_IP}}
+                username: {{HOMEPAGE_VAR_QBITTORRENT_USER}}
+                password: {{HOMEPAGE_VAR_QBITTORRENT_PASS}}
+       
+    - Jackett:
+            icon: jackett.svg
+            siteMonitor: {{HOMEPAGE_VAR_JACKETT_IP}}
+            description: Index Manager
+            server: {{HOMEPAGE_VAR_DOCKER}}  # The docker server that was configured
+            container: qbittorrent 
+            widget:
+                type: jackett
+                url: {{HOMEPAGE_VAR_JACKETT_IP}} # Replace with your Jackett URL/IP and port
+                # password: your_jackett_password # Uncomment and set if you have a password set
+                open: {{HOMEPAGE_VAR_JACKETT_IP}} # Link for the main button
+
+
+            
+- Stats:
+    - NAS:
+        icon: {{HOMEPAGE_VAR_PADDYNAS_ICON}}
+        href: {{HOMEPAGE_VAR_PADDYNAS_IP}}
+        ping: {{HOMEPAGE_VAR_PADDYNAS_IP}}
+        #monitor: http://{{HOMEPAGE_VAR_UNRAID_HOSTNAME}}/
+        #description: NAS
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        widget:
+            type: glances
+            url: {{HOMEPAGE_VAR_GLANCES_IP}}
+            version: 4 # required only if running glances v4 or higher, defaults to 3
+            metric: info
+            diskUnits: bytes # optional, bytes (default) or bbytes. Only applies to disk
+            refreshInterval: 5000 # optional - in milliseconds, defaults to 1000 or more, depending on the metric
+            pointsLimit: 15 # optional, defaults to 15
+    - Network Usage:
+        #icon: unraid.png
+        href: {{HOMEPAGE_VAR_GLANCES_IP}}
+        widget:
+            type: glances
+            version: 4
+            #username: # optional if auth enabled in Glances
+            #password: # optional if auth enabled in Glances
+            url: {{HOMEPAGE_VAR_GLANCES_IP}}
+            metric: {{HOMEPAGE_VAR_GLANCES_METRIC}}
+    - glances:
+        description: NAS Stats
+        icon: glances.png # Or a Font Awesome icon, e.g., 'fas fa-desktop'
+        ping: {{HOMEPAGE_VAR_GLANCES_IP}}
+        container: Glances
+        href: {{HOMEPAGE_VAR_GLANCES_IP}}
+    
+    
+    - UptimeKuma:
+        href: 
+        description: Uptime tracker
+        siteMonitor: {{HOMEPAGE_VAR_UPTIMEKUMA_IP}}
+        icon: uptime-kuma.png
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        container: UptimeKuma
+        widget:
+            type: uptimekuma
+            url: {{HOMEPAGE_VAR_UPTIMEKUMA_IP}}
+            slug: {{OMEPAGE_VAR_UPTIMEKUMA_SLUG}}
+
+
+- Security and Identity:
+    - Cloudflared:
+        icon: cloudflare.png
+        description: Cloudflare Stats
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        container: Unraid-Cloudflared-Tunnel
+        widget:
+            type: cloudflared
+            accountid: {{HOMEPAGE_VAR_CLOUDFLARE_ID}} # from zero trust dashboard url e.g. https://one.dash.cloudflare.com/<accountid>/home/quick-start
+            tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL}}# found in tunnels dashboard under the tunnel name
+            key: {{HOMEPAGE_VAR_CLOUDFLARE_KEY}} # 
+
+    - Duplicacy:
+        container: Duplicacy
+        description: Backup Software
+        icon: duplicacy.png
+        siteMonitor: {{HOMEPAGE_VAR_DUPLICACY_IP}}
+
+- Automation:
+    - TDB:
+
+- IoT and Smarthome:
+    - Mealie:
+        icon: {{HOMEPAGE_VAR_MEALIE_ICON}}
+        href: {{HOMEPAGE_VAR_MEALIE_IP}}
+        siteMonitor: {{HOMEPAGE_VAR_MEALIE_IP}}
+        description: Recipe Maanger
+        #showStats: true
+        server: {{HOMEPAGE_VAR_DOCKER}}
+        container: mealiev1 # The name of the container you'd like to connect
+        widget:
+            type: mealie
+            url: {{HOMEPAGE_VAR_MEALIE_IP}}
+            key: {{HOMEPAGE_VAR_MEALIE_KEY}}
+            version: 2
+    
+
+    - RustDesk:
+        description: Remote Desktop Solution
+        icon: rustdesk.png # Or a Font Awesome icon, e.g., 'fas fa-desktop'
+        ping: {{HOMEPAGE_VAR_RUSTPING_IP}}
+        container: RustDeskServer-AiO
+        href: {{HOMEPAGE_VAR_RUSTHREF_IP}}
+
+    
+    
+    
+
+   
+
+
+
+
